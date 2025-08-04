@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prefia - Innovation. Elegance. Intelligence.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #f59e0b 100%);
+            --accent-gradient: linear-gradient(45deg, #059669, #0891b2, #7c3aed);
+            --saffron: #f59e0b;
+            --peacock: #059669;
+            --deep-blue: #1e3a8a;
+            --purple: #7c3aed;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        /* Rangoli background pattern */
+        .rangoli-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 25% 25%, var(--saffron) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, var(--peacock) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, var(--purple) 0%, transparent 25%);
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Navigation improvements */
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--primary-gradient);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Improved CTA sections */
+        .section-cta {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--purple);
+            border-radius: 25px;
+            color: var(--purple);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: var(--purple);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #666;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero .description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #555;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #333;
+            border: 2px solid #333;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+        }
+
+        /* Floating animation */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            background: linear-gradient(45deg, var(--saffron), var(--peacock));
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            background: linear-gradient(45deg, var(--deep-blue), var(--purple));
+            animation-delay: 2s;
+        }
+
+        .floating-icon:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            background: linear-gradient(45deg, var(--peacock), var(--deep-blue));
+            animation-delay: 4s;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 60px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Who We Are Section */
+        .who-we-are {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.9));
+        }
+
+        .who-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .who-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .who-visual {
+            height: 400px;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hexagon-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .hexagon {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hexagon-inner {
+            width: 80%;
+            height: 80%;
+            background: rgba(255, 255, 255, 0.1);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .innovation-icons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+        }
+
+        .innovation-icon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            animation: orbit 15s linear infinite;
+        }
+
+        .innovation-icon:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0s;
+        }
+
+        .innovation-icon:nth-child(2) {
+            top: 25%;
+            right: 0;
+            animation-delay: -3s;
+        }
+
+        .innovation-icon:nth-child(3) {
+            bottom: 25%;
+            right: 0;
+            animation-delay: -6s;
+        }
+
+        .innovation-icon:nth-child(4) {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: -9s;
+        }
+
+        .innovation-icon:nth-child(5) {
+            bottom: 25%;
+            left: 0;
+            animation-delay: -12s;
+        }
+
+        .innovation-icon:nth-child(6) {
+            top: 25%;
+            left: 0;
+            animation-delay: -15s;
+        }
+
+        /* What We Do Section */
+        .what-we-do-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Products Section */
+        .products {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), rgba(124, 58, 237, 0.05));
+        }
+
+        .products-carousel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 25px;
+            margin-top: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(124, 58, 237, 0.15);
+            border-color: rgba(124, 58, 237, 0.2);
+        }
+
+        .product-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* AI Innovation Section */
+        .ai-innovation {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.05), rgba(8, 145, 178, 0.05));
+        }
+
+        .ai-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .ai-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+        }
+
+        .ai-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ai-card-content {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .ai-features {
+            list-style: none;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ai-features li {
+            color: #666;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .ai-features li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+        }
+
+        .ai-card-bottom {
+            margin-top: auto;
+        }
+
+        .client-tag {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), rgba(124, 58, 237, 0.05));
+            padding: 100px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--purple);
+            font-family: serif;
+            opacity: 0.3;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .author-info h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .author-info .company {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Why Prefia Section */
+        .why-prefia {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(124, 58, 237, 0.05));
+        }
+
+        .mandala-ring {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .mandala-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mandala-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--primary-gradient);
+            border-radius: 50px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mandala-card:hover::before {
+            opacity: 1;
+        }
+
+        .mandala-card:hover {
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .mandala-card h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.8), rgba(124, 58, 237, 0.8));
+            color: white;
+        }
+
+        .contact h2 {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--saffron);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Success/Error Message Styles */
+        .form-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .form-message.success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+
+        .form-message.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .form-message.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--saffron);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 30px;
+            text-align: center;
+            color: #999;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes orbit {
+            from { 
+                transform: rotate(0deg) translateX(130px) rotate(0deg); 
+            }
+            to { 
+                transform: rotate(360deg) translateX(130px) rotate(-360deg); 
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsive Improvements */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .hero .description {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .who-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .what-we-do-grid,
+            .ai-showcase,
+            .mandala-ring,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-carousel {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                max-width: 400px;
+            }
+
+            .innovation-icons {
+                width: 250px;
+                height: 250px;
+            }
+
+            .hexagon-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">PREFIA</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="rangoli-bg"></div>
+        <div class="floating-elements">
+            <div class="floating-icon glass">🤖</div>
+            <div class="floating-icon glass">⚕️</div>
+            <div class="floating-icon glass">⚙️</div>
+        </div>
+        <div class="hero-content">
+            <h1>PREFIA</h1>
+            <p class="tagline">Innovation. Elegance. Intelligence.</p>
+            <p class="description">
+                At Prefia, we're not just building technology. We're crafting experiences—where cutting-edge IT and AI solutions meet the timeless elegance of Indian heritage.
+            </p>
+            <p class="description">
+                <strong>Transform your enterprise. Empower your future.</strong>
+            </p>
+            <div class="cta-buttons">
+                <a href="#services" class="btn btn-primary">Explore Our Solutions</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Are Section -->
+    <section id="about" class="section who-we-are">
+        <div class="container">
+            <h2 class="fade-in">Who We Are</h2>
+            <div class="who-content">
+                <div class="who-text fade-in">
+                    <p><strong>Prefia brings together world-class innovation and the spirit of Indian ingenuity.</strong> We are a cutting-edge technology company that specializes in designing and building transformative solutions for IT Healthcare, Manufacturing, and Fintech industries.</p>
+                    <p>With AI at the heart of every project, we bridge the gap between traditional business processes and futuristic technology. Our team combines deep technical expertise with cultural understanding to deliver solutions that are not just powerful, but also intuitive and human-centered.</p>
+                    <p><em>From digital health platforms to AI-powered manufacturing systems, we're not just building software—we're crafting the future of enterprise technology.</em></p>
+                </div>
+                <div class="who-visual fade-in">
+                    <div class="hexagon-container">
+                        <div class="hexagon">
+                            <div class="hexagon-inner">
+                                AI
+                            </div>
+                        </div>
+                    </div>
+                    <div class="innovation-icons">
+                        <div class="innovation-icon">🏥</div>
+                        <div class="innovation-icon">⚙️</div>
+                        <div class="innovation-icon">💰</div>
+                        <div class="innovation-icon">🤖</div>
+                        <div class="innovation-icon">📊</div>
+                        <div class="innovation-icon">🔬</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do Section -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="fade-in">What We Do</h2>
+            <div class="what-we-do-grid">
+                <div class="service-card fade-in">
+                    <h3>IT Healthcare</h3>
+                    <p>End-to-end EHR, patient engagement, clinical intelligence, and provider automation—built for interoperability and real impact.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <h3>Manufacturing</h3>
+                    <p>Industry 4.0, predictive maintenance, IoT analytics, and AI monitoring—empowering next-gen factories.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <h3>FinTech & AI</h3>
+                    <p>Smart chatbots, data analytics, automated workflows, and financial process intelligence—future-proofing financial innovation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Products Section -->
+    <section id="products" class="section products">
+        <div class="container">
+            <h2 class="fade-in">Our Flagship Products</h2>
+            <div class="products-carousel">
+                <div class="product-card fade-in">
+                    <h4>Clinical Viewer</h4>
+                    <p>Connect your data to our system and view all your healthcare data in one elegant dashboard.</p>
+                </div>
+                <div class="product-card fade-in">
+                    <h4>Pre-Auth Creator</h4>
+                    <p>Automate prior authorizations, reduce delays, and enhance provider productivity.</p>
+                </div>
+                <div class="product-card fade-in">
+                    <h4>Patient Health Analyzer</h4>
+                    <p>Proactive insights, powered by AI. Improve patient outcomes and engagement.</p>
+                </div>
+                <div class="product-card fade-in">
+                    <h4>Patient Engagement Solutions</h4>
+                    <p>Multichannel outreach, personalized communication—humanizing healthcare, powered by technology.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Innovation Spotlight Section -->
+    <section class="section ai-innovation">
+        <div class="container">
+            <h2 class="fade-in">AI Innovation Spotlight</h2>
+            <div class="ai-showcase">
+                <div class="ai-card fade-in">
+                    <div class="ai-card-content">
+                        <h4>iWish (Fintech)</h4>
+                        <p>AI chatbot for seamless client engagement and financial services automation.</p>
+                    </div>
+                    <div class="ai-card-bottom">
+                        <div class="client-tag">Volante (Fintech)</div>
+                    </div>
+                </div>
+                <div class="ai-card fade-in">
+                    <div class="ai-card-content">
+                        <h4>Argus Query</h4>
+                        <ul class="ai-features">
+                            <li>AI chatbot for intelligent conversations</li>
+                            <li>AI document creator for automated reports</li>
+                            <li>AI data analyst for insights & analytics</li>
+                        </ul>
+                        <p><em>Empowering enterprise clients with comprehensive AI solutions</em></p>
+                    </div>
+                    <div class="ai-card-bottom">
+                        <div class="client-tag">Schneider • Bridge to Life • GE • CampusBox</div>
+                    </div>
+                </div>
+                <div class="ai-card fade-in">
+                    <div class="ai-card-content">
+                        <h4>Elecon</h4>
+                        <p>Advanced AI-driven monitoring tools for industrial manufacturing, predictive maintenance, and operational optimization.</p>
+                    </div>
+                    <div class="ai-card-bottom">
+                        <div class="client-tag">Manufacturing Excellence</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="fade-in">What Our Clients Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">Argus built a customized AI Data Analysis APP for my sales data in weeks. The insights have transformed how we approach our market strategy.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h5>CFO</h5>
+                            <p class="company">CampusBox</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">A monumental task of finding complex technical information became as simple as a click of a button with Argus AI Chat.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">E</div>
+                        <div class="author-info">
+                            <h5>Executive Vice President</h5>
+                            <p class="company">Schneider</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">The Argus AI Doc Creator for FDA 510K Filing helped us submit in record time. Absolutely game-changing for our regulatory processes.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h5>CEO</h5>
+                            <p class="company">Bridge to Life</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">The Argus AI Chat bot on our website will make a huge difference to our customers. The implementation was seamless and the results immediate.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">C</div>
+                        <div class="author-info">
+                            <h5>CEO</h5>
+                            <p class="company">SpiceKraft</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-text">The Argus AI Sentiment Analysis tools does an amazing job of comparing product reviews. It's given us unprecedented insights into customer feedback.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">D</div>
+                        <div class="author-info">
+                            <h5>Senior Director Marketing</h5>
+                            <p class="company">GE</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Prefia Section -->
+    <section class="section why-prefia">
+        <div class="container">
+            <h2 class="fade-in">Why Prefia?</h2>
+            <div class="mandala-ring">
+                <div class="mandala-card fade-in">
+                    <h4>Multidomain Expertise</h4>
+                    <p>Deep knowledge across healthcare, manufacturing, and fintech industries.</p>
+                </div>
+                <div class="mandala-card fade-in">
+                    <h4>AI-Driven Results</h4>
+                    <p>Cutting-edge artificial intelligence at the core of every solution.</p>
+                </div>
+                <div class="mandala-card fade-in">
+                    <h4>Elegant Design</h4>
+                    <p>Human-centric design that combines functionality with beauty.</p>
+                </div>
+                <div class="mandala-card fade-in">
+                    <h4>Cultural Innovation</h4>
+                    <p>Rooted in Indian values, inspired by global leaders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="fade-in">Let's Create Something Extraordinary Together</h2>
+            <div class="contact-form fade-in">
+                <!-- Success/Error Message -->
+                <div id="form-message" class="form-message hidden"></div>
+                
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Let's Talk</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="#services">IT Healthcare</a></li>
+                        <li><a href="#services">Manufacturing</a></li>
+                        <li><a href="#services">FinTech & AI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="#products">Clinical Viewer</a></li>
+                        <li><a href="#products">Pre-Auth Creator</a></li>
+                        <li><a href="#products">Patient Health Analyzer</a></li>
+                        <li><a href="#products">Patient Engagement</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Prefia. All rights reserved. Innovation. Elegance. Intelligence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ====================================
+        // EmailJS Configuration & Integration
+        // ====================================
+        
+        // TODO: Replace these with your actual EmailJS credentials
+        const EMAILJS_CONFIG = {
+            SERVICE_ID: 'service_oq64j1q',     // Replace with your EmailJS service ID
+            TEMPLATE_ID: 'template_vv0dewf',   // Replace with your EmailJS template ID
+            PUBLIC_KEY: 'VY7czSFSA-0V3eeSp'      // Replace with your EmailJS public key
+        };
+
+        // Check if EmailJS configuration is set up
+        function isEmailJSConfigured() {
+            return EMAILJS_CONFIG.SERVICE_ID !== 'YOUR_SERVICE_ID' && 
+                   EMAILJS_CONFIG.TEMPLATE_ID !== 'YOUR_TEMPLATE_ID' && 
+                   EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
+        }
+
+        // Initialize EmailJS when the library is loaded
+        function initEmailJS() {
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+                console.log('EmailJS initialized successfully');
+            } else {
+                console.error('EmailJS library not loaded');
+                setTimeout(initEmailJS, 100); // Retry in 100ms
+            }
+        }
+
+        // Initialize EmailJS after DOM is loaded
+        document.addEventListener('DOMContentLoaded', initEmailJS);
+
+        // Enhanced form submission with EmailJS
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            // Validate form
+            if (!name || !email || !message) {
+                showFormMessage('Please fill in all fields.', 'error');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showFormMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Check if EmailJS is available
+            if (typeof emailjs === 'undefined') {
+                showFormMessage('Email service is not available. Please try again later or contact us directly.', 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                return;
+            }
+
+            // Check if EmailJS is properly configured
+            if (!isEmailJSConfigured()) {
+                showFormMessage('Email service is not configured yet. Please contact us directly at your-email@prefia.com', 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                return;
+            }
+
+            // Prepare template parameters (matching your provided structure)
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_name: 'Sanjeev',
+                reply_to: email
+            };
+            
+            // Send email using EmailJS
+            emailjs.send(
+                EMAILJS_CONFIG.SERVICE_ID, 
+                EMAILJS_CONFIG.TEMPLATE_ID, 
+                templateParams
+            )
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                showFormMessage(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you within 24 hours.`, 'success');
+                document.getElementById('contact-form').reset();
+            })
+            .catch(function(error) {
+                console.error('FAILED...', error);
+                showFormMessage('Sorry, there was an error sending your message. Please try again or contact us directly.', 'error');
+            })
+            .finally(function() {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // Function to show form messages
+        function showFormMessage(text, type) {
+            const messageEl = document.getElementById('form-message');
+            messageEl.textContent = text;
+            messageEl.className = `form-message ${type}`;
+            messageEl.classList.remove('hidden');
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageEl.classList.add('hidden');
+                }, 5000);
+            }
+            
+            // Scroll to message
+            messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ====================================
+        // Existing Website JavaScript
+        // ====================================
+
+        // Scroll Progress Indicator
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.scroll-progress').style.width = scrollPercent + '%';
+        }
+
+        // Back to Top Button
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleBackToTop() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+
+        // Scroll event listeners
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            toggleBackToTop();
+            
+            // Parallax effect for hero section
+            const scrolled = window.pageYOffset;
+            const floatingElements = document.querySelector('.floating-elements');
+            
+            if (floatingElements) {
+                floatingElements.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add typing effect to hero tagline
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect when page loads
+        window.addEventListener('load', () => {
+            const tagline = document.querySelector('.hero .tagline');
+            const originalText = tagline.textContent;
+            setTimeout(() => {
+                typeWriter(tagline, originalText, 80);
+            }, 1000);
+        });
+
+        // Add interactive sparkle effects
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'fixed';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.fontSize = '16px';
+            sparkle.style.zIndex = '9999';
+            sparkle.innerHTML = '✨';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.animation = 'fadeInUp 2s ease-out forwards';
+            sparkle.style.opacity = '0.7';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        // Create sparkles occasionally
+        setInterval(createSparkle, 4000);
+
+        // Mobile menu functionality
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            const spans = this.querySelectorAll('span');
+            
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            
+            // Animate hamburger to X
+            spans[0].style.transform = navLinks.style.display === 'flex' ? 'rotate(45deg)' : 'rotate(0)';
+            spans[1].style.opacity = navLinks.style.display === 'flex' ? '0' : '1';
+            spans[2].style.transform = navLinks.style.display === 'flex' ? 'rotate(-45deg)' : 'rotate(0)';
+        });
+
+        // Add smooth loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add card tilt effect for testimonials
+        document.querySelectorAll('.testimonial-card, .product-card, .ai-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+    </script>
+</body>
+</html>
